@@ -1,3 +1,10 @@
+#ifndef GAMES_DATABASE_HPP
+#define GAMES_DATABASE_HPP
+
+#include "Game.hpp"
+#include <iostream>
+#include <vector>
+
 class TrieNode {
 
 public:
@@ -31,3 +38,5 @@ public:
 
     // Outros métodos auxiliares, se necessário
 };
+
+#endif
