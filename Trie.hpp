@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+const int ALPHABET_SIZE = 36;
+
 class TrieNode {
 
 public:

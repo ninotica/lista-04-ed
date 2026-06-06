@@ -1,27 +1,23 @@
 #include "Game.hpp"
 
-Game::Game(){
-
+Game::Game() {
+    
 }
-
-Game::Game(){
-
-}
-Game::Game(std::string title, std::string shortDescription, int popularity){
+Game::Game(std::string title, std::string shortDescription, int popularity) {
     this->title = title;
     this->shortDescription = shortDescription;
     this->popularity = popularity;
 }
-Game::~Game(){
+Game::~Game() {
 
 }
 
-std::string Game::getTitle(){
+std::string Game::getTitle() {
     return title;
 }
-std::string Game::getShortDescription(){
+std::string Game::getShortDescription() {
     return shortDescription;
 }
-int Game::getPopularity(){
+int Game::getPopularity() {
     return popularity;
 }

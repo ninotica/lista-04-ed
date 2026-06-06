@@ -1,5 +1,12 @@
 #include "Trie.hpp"
 
+TrieNode::TrieNode() {
+
+}
+TrieNode::~TrieNode() {
+    
+}
+
 Trie::Trie() {
 
 }
