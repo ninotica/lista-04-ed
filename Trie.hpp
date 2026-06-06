@@ -8,7 +8,6 @@
 class TrieNode {
 
 public:
-
     TrieNode* children[ALPHABET_SIZE];
     bool isEndOfTitle;
     Game* game;
