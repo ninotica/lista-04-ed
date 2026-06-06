@@ -72,6 +72,23 @@ std::string Trie::toSearchKey(std::string text) {
     }
     return resultado;
 }
-void Trie::sortResults(std::vector<Game*>& games) {
-
+void Trie::sortResults(std::vector<Game*> &games) {
+    int min_index;
+    Game* temp;
+    
+    for (int i =0; i < games.size(); i++){
+        min_index = i;
+        for (int j=i + 1; j< games.size(); j++){
+            if (games[j]->getPopularity()>games[min_index]->getPopularity()){
+                min_index = j;
+            } else if (games[j]->getPopularity()==games[min_index]->getPopularity() && toSearchKey(games[j]->getTitle()) < toSearchKey(games[min_index]->getTitle())) {
+                min_index = j;
+            }
+        }
+        if (min_index != i){
+            temp = games[i];
+            games[i] = games[min_index];
+            games[min_index] = temp;
+        }
+    }
 }
