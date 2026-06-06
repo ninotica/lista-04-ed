@@ -1,5 +1,5 @@
-#ifndef GAMES_DATABASE_HPP
-#define GAMES_DATABASE_HPP
+#ifndef TRIE_HPP
+#define TRIE_HPP
 
 #include "Game.hpp"
 #include <iostream>
