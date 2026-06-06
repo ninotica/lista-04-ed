@@ -23,10 +23,17 @@ bool Trie::insert(Game* game) {
     std::string key = toSearchKey(game->getTitle());
     TrieNode* parent = root;
     for (char c : key){
-        
+        int idx = (int)c;
+        if (parent->children[idx] == nullptr){
+            parent->children[idx] = new TrieNode();
+        }
+        parent = parent->children[idx];
     }
-
+    parent->isEndOfTitle = true;
+    parent->game = game;
+    return true;
 }
+
 bool Trie::contains(std::string title) {
 
 }
