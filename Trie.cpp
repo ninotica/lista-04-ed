@@ -1,20 +1,30 @@
 #include "Trie.hpp"
+#include <cctype>
 
 TrieNode::TrieNode() {
-
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
+        children[i] = nullptr;
+    }
+    isEndOfTitle = false;
+    game = nullptr;
 }
 TrieNode::~TrieNode() {
     
 }
 
 Trie::Trie() {
-
+    root = new TrieNode();
 }
 Trie::~Trie() {
 
 }
 
 bool Trie::insert(Game* game) {
+    std::string key = toSearchKey(game->getTitle());
+    TrieNode* parent = root;
+    for (char c : key){
+        
+    }
 
 }
 bool Trie::contains(std::string title) {
@@ -26,7 +36,21 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
 }
 
 std::string Trie::toSearchKey(std::string text) {
-
+    // Aqui, implementamos uma função que nos devolve uma string 
+    // ilegível de caracteres (potencialmente não printáveis) 
+    // cujos códigos ASCII vão de 0 a 35. Assim, fica fácil 
+    // convertê-los de volta para int e usá-los como índices em outras funções!
+    std::string resultado = "";
+    for(char c : text){
+        int idx = -1;
+        if (c >= '0' && c <= '9') idx = c - '0';
+        if (c >= 'a' && c <= 'z') idx = 10 + c - 'a';
+        if (c >= 'A' && c <= 'Z') idx = 10 + c - 'A';
+        if (idx != -1){
+            resultado += (char)idx;
+        }
+    }
+    return resultado;
 }
 void Trie::sortResults(std::vector<Game*>& games) {
 

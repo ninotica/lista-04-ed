@@ -35,6 +35,7 @@ public:
     std::vector<Game*> autocomplete(std::string prefix, int k);
 
     std::string toSearchKey(std::string text);
+    
     void sortResults(std::vector<Game*>& games);
 
     // Outros métodos auxiliares, se necessário
