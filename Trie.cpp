@@ -35,7 +35,20 @@ bool Trie::insert(Game* game) {
 }
 
 bool Trie::contains(std::string title) {
+    std::string key = toSearchKey(title);
+    TrieNode* node = root;
 
+    for (char c : key) {
+        int idx = (int)c;
+        
+        if (node->children[idx] == nullptr) {
+            return false;
+        }
+        
+        node = node->children[idx];
+    }
+
+    return node->isEndOfTitle;
 }
 
 std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
