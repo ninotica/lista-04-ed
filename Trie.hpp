@@ -23,6 +23,8 @@ class Trie {
 private:
 
     TrieNode* root;
+    std::vector<Game*> depthSearchGames(TrieNode* node);
+    void depthDeleteNodes(TrieNode* node);
 
 public:
 
@@ -37,7 +39,6 @@ public:
     std::string toSearchKey(std::string text);
     
     void sortResults(std::vector<Game*>& games);
-
     // Outros métodos auxiliares, se necessário
 };
 

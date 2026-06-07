@@ -12,11 +12,37 @@ TrieNode::~TrieNode() {
     
 }
 
+std::vector<Game*> Trie::depthSearchGames(TrieNode* node){
+    if (node == nullptr){
+        return {};
+    }
+    std::vector<Game*> resultado = {};
+    if (node->isEndOfTitle){
+        resultado.push_back(node->game);
+    }
+    for (int i=0; i<ALPHABET_SIZE; i++){
+        std::vector<Game*> child = depthSearchGames(node->children[i]);
+        resultado.insert(resultado.end(), child.begin(), child.end());
+    }
+    return resultado;    
+}
+
+void Trie::depthDeleteNodes(TrieNode* node){
+    if (node == nullptr) {
+        return;
+    }
+    for (int i = 0; i<ALPHABET_SIZE; i++) {
+        depthDeleteNodes(node->children[i]);
+    }
+    delete node;
+    return;
+}
+
 Trie::Trie() {
     root = new TrieNode();
 }
 Trie::~Trie() {
-
+    depthDeleteNodes(root);
 }
 
 bool Trie::insert(Game* game) {
@@ -52,7 +78,18 @@ bool Trie::contains(std::string title) {
 }
 
 std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
-
+    std::string key = toSearchKey(prefix);
+    TrieNode* start = root;
+    for (char c : key) {
+        int idx = (int)c;
+        if (start->children[idx] == nullptr) {
+            return {};
+        }
+        start = start->children[idx];
+    }
+    std::vector<Game*> games = depthSearchGames(start);
+    sortResults(games);
+    return games;   
 }
 
 std::string Trie::toSearchKey(std::string text) {
