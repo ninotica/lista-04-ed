@@ -19,7 +19,6 @@ public:
     std::string getTitle();
     std::string getShortDescription();
     int getPopularity();
-    std::string toPrintable();
 };
 
 #endif
