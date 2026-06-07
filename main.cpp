@@ -23,7 +23,12 @@ int main(int argc, char* argv[]){
     }
     
     std::vector<Game*> result = trie.autocomplete(prefix, k);
-    for (Game* game: result) {
-        std::cout << game->getTitle() << " | " << game->getShortDescription() << " | " << game->getPopularity() << std::endl;
+
+    if (result.size() == 0){
+        std::cout << "No results found" << std::endl;
+    } else {
+        for (Game* game: result) {
+            std::cout << game->getTitle() << " | " << game->getShortDescription() << " | " << game->getPopularity() << std::endl;
+        }
     }
 }
