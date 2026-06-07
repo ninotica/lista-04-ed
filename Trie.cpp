@@ -89,6 +89,7 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     }
     std::vector<Game*> games = depthSearchGames(start);
     sortResults(games);
+    if (games.size() > k) games.resize(k);
     return games;   
 }
 
