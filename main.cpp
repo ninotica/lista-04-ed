@@ -3,7 +3,10 @@
 
 
 int main(int argc, char* argv[]) {
-    if (argc != 3) std::cout << "Usage: ./app k prefix" << std::endl;
+    if (argc != 3) {
+        std::cout << "Usage: ./app k prefix" << std::endl;
+        return 1;
+    }
 
     int k = 0;
     int i = 0;

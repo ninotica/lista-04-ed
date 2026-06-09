@@ -1,7 +1,6 @@
 #include "Game.hpp"
 
 Game::Game() {
-    
 }
 Game::Game(std::string title, std::string shortDescription, int popularity) {
     this->title = title;
@@ -9,7 +8,6 @@ Game::Game(std::string title, std::string shortDescription, int popularity) {
     this->popularity = popularity;
 }
 Game::~Game() {
-
 }
 
 std::string Game::getTitle() {

@@ -45,7 +45,7 @@ bool Trie::insert(Game* game) {
     TrieNode* parent = root;
 
     for (char c : key){
-        int idx = (int)c;
+        int idx = (int)c; // c já é um índice normalizado (0-35) vindo de toSearchKey, não um código ASCII
 
         if (parent->children[idx] == nullptr) parent->children[idx] = new TrieNode();
 
@@ -77,6 +77,7 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     std::string key = toSearchKey(prefix);
     TrieNode* start = root;
     
+    // Navega até o nó correspondente ao prefixo
     for (char c : key) {
         int idx = (int)c;
     
@@ -85,6 +86,7 @@ std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
         start = start->children[idx];
     }
     
+    // Coleta todos os jogos da subárvore, ordena e trunca
     std::vector<Game*> games = depthSearchGames(start);
     sortResults(games);
 
@@ -102,7 +104,8 @@ std::string Trie::toSearchKey(std::string text) {
     
     for (char c : text) {
         int idx = -1;
-    
+
+        // '0'-'9' → índices 0-9; 'a'-'z' e 'A'-'Z' → índices 10-35; espaços são ignorados (idx permanece -1)
         if (c >= '0' && c <= '9') idx = c - '0';
         if (c >= 'a' && c <= 'z') idx = 10 + c - 'a';
         if (c >= 'A' && c <= 'Z') idx = 10 + c - 'A';
