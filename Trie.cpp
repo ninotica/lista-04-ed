@@ -1,39 +1,34 @@
 #include "Trie.hpp"
-#include <cctype>
 
 TrieNode::TrieNode() {
-    for (int i = 0; i < ALPHABET_SIZE; i++) {
-        children[i] = nullptr;
-    }
+    for (int i = 0; i < ALPHABET_SIZE; i++) children[i] = nullptr;
+
     isEndOfTitle = false;
     game = nullptr;
 }
 TrieNode::~TrieNode() {
-    
 }
 
-std::vector<Game*> Trie::depthSearchGames(TrieNode* node){
-    if (node == nullptr){
-        return {};
-    }
+std::vector<Game*> Trie::depthSearchGames(TrieNode* node) {
+    if (node == nullptr) return {};
+
     std::vector<Game*> resultado = {};
-    if (node->isEndOfTitle){
-        resultado.push_back(node->game);
-    }
-    for (int i=0; i<ALPHABET_SIZE; i++){
+
+    if (node->isEndOfTitle) resultado.push_back(node->game);
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) {
         std::vector<Game*> child = depthSearchGames(node->children[i]);
         resultado.insert(resultado.end(), child.begin(), child.end());
     }
+
     return resultado;    
 }
 
-void Trie::depthDeleteNodes(TrieNode* node){
-    if (node == nullptr) {
-        return;
-    }
-    for (int i = 0; i<ALPHABET_SIZE; i++) {
-        depthDeleteNodes(node->children[i]);
-    }
+void Trie::depthDeleteNodes(TrieNode* node) {
+    if (node == nullptr) return;
+
+    for (int i = 0; i < ALPHABET_SIZE; i++) depthDeleteNodes(node->children[i]);
+
     delete node;
     return;
 }
@@ -48,15 +43,18 @@ Trie::~Trie() {
 bool Trie::insert(Game* game) {
     std::string key = toSearchKey(game->getTitle());
     TrieNode* parent = root;
+
     for (char c : key){
         int idx = (int)c;
-        if (parent->children[idx] == nullptr){
-            parent->children[idx] = new TrieNode();
-        }
+
+        if (parent->children[idx] == nullptr) parent->children[idx] = new TrieNode();
+
         parent = parent->children[idx];
     }
+
     parent->isEndOfTitle = true;
     parent->game = game;
+
     return true;
 }
 
@@ -66,11 +64,9 @@ bool Trie::contains(std::string title) {
 
     for (char c : key) {
         int idx = (int)c;
-        
-        if (node->children[idx] == nullptr) {
-            return false;
-        }
-        
+
+        if (node->children[idx] == nullptr) return false;
+
         node = node->children[idx];
     }
 
@@ -80,16 +76,20 @@ bool Trie::contains(std::string title) {
 std::vector<Game*> Trie::autocomplete(std::string prefix, int k){
     std::string key = toSearchKey(prefix);
     TrieNode* start = root;
+    
     for (char c : key) {
         int idx = (int)c;
-        if (start->children[idx] == nullptr) {
-            return {};
-        }
+    
+        if (start->children[idx] == nullptr) return {};
+    
         start = start->children[idx];
     }
+    
     std::vector<Game*> games = depthSearchGames(start);
     sortResults(games);
+
     if (games.size() > k) games.resize(k);
+    
     return games;   
 }
 
@@ -99,15 +99,16 @@ std::string Trie::toSearchKey(std::string text) {
     // cujos códigos ASCII vão de 0 a 35. Assim, fica fácil 
     // convertê-los de volta para int e usá-los como índices em outras funções!
     std::string resultado = "";
-    for(char c : text){
+    
+    for (char c : text) {
         int idx = -1;
+    
         if (c >= '0' && c <= '9') idx = c - '0';
         if (c >= 'a' && c <= 'z') idx = 10 + c - 'a';
         if (c >= 'A' && c <= 'Z') idx = 10 + c - 'A';
-        if (idx != -1){
-            resultado += (char)idx;
-        }
+        if (idx != -1) resultado += (char)idx;
     }
+    
     return resultado;
 }
 void Trie::sortResults(std::vector<Game*> &games) {
@@ -116,14 +117,13 @@ void Trie::sortResults(std::vector<Game*> &games) {
     
     for (int i =0; i < games.size(); i++){
         min_index = i;
+    
         for (int j=i + 1; j< games.size(); j++){
-            if (games[j]->getPopularity()>games[min_index]->getPopularity()){
-                min_index = j;
-            } else if (games[j]->getPopularity()==games[min_index]->getPopularity() && toSearchKey(games[j]->getTitle()) < toSearchKey(games[min_index]->getTitle())) {
-                min_index = j;
-            }
+            if (games[j]->getPopularity() > games[min_index]->getPopularity()) min_index = j;
+            else if (games[j]->getPopularity() == games[min_index]->getPopularity() && toSearchKey(games[j]->getTitle()) < toSearchKey(games[min_index]->getTitle())) min_index = j;
         }
-        if (min_index != i){
+    
+        if (min_index != i) {
             temp = games[i];
             games[i] = games[min_index];
             games[min_index] = temp;

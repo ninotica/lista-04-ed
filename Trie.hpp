@@ -2,7 +2,6 @@
 #define TRIE_HPP
 
 #include "Game.hpp"
-#include <iostream>
 #include <vector>
 
 const int ALPHABET_SIZE = 36;
